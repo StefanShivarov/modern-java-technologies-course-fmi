@@ -1,5 +1,3 @@
-package intro_to_java;
-
 public class JumpGame {
 
     public static boolean canWin(int[] arr) {
@@ -20,11 +18,5 @@ public class JumpGame {
         }
 
         return false;
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(canWin(new int[]{2, 3, 1, 1, 0}));
-        System.out.println(canWin(new int[]{3, 2, 1, 0, 0}));
     }
 }

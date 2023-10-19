@@ -1,9 +1,3 @@
-package intro_to_java;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-
 public class IPValidator {
 
     public static boolean validateIPv4Address(String str){
@@ -15,7 +9,7 @@ public class IPValidator {
         }
 
         for(String s: octets){
-            if(s.isBlank()){
+            if(s.isBlank() || s.contains(" ")){
                 return false;
             }
             int number = Integer.parseInt(s);
@@ -25,13 +19,5 @@ public class IPValidator {
         }
 
         return true;
-    }
-
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) {
-
-        String input = scanner.nextLine();
-        System.out.println(validateIPv4Address(input));
     }
 }
