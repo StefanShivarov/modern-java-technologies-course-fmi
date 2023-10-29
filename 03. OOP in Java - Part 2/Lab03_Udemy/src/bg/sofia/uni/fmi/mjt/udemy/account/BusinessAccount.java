@@ -9,7 +9,7 @@ import bg.sofia.uni.fmi.mjt.udemy.exception.MaxCourseCapacityReachedException;
 
 public class BusinessAccount extends AccountBase {
 
-    private Category[] allowedCategories;
+    private final Category[] allowedCategories;
     public BusinessAccount(String username, double balance, Category[] allowedCategories) {
         super(username, balance);
         this.allowedCategories = allowedCategories;

@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Course implements Completable, Purchasable {
 
     private static final int MAX_RESOURCES_AMOUNT = 100;
-    private final String name;
+    private String name;
     private String description;
     private double price;
     private Resource[] content;
@@ -17,8 +17,8 @@ public class Course implements Completable, Purchasable {
     private Category category;
     private CourseDuration totalTime;
     private boolean purchased;
-
     private boolean completed;
+
     public Course(String name, String description, double price, Resource[] content, Category category) {
         this.name = name;
         this.description = description;
@@ -48,6 +48,9 @@ public class Course implements Completable, Purchasable {
         return content;
     }
 
+    public int getResourcesAmount() {
+        return resourcesAmount;
+    }
     public Category getCategory() {
         return category;
     }
@@ -57,13 +60,32 @@ public class Course implements Completable, Purchasable {
     }
 
     public void completeResource(Resource resourceToComplete) throws ResourceNotFoundException {
+        if(resourceToComplete == null){
+            throw new IllegalArgumentException("Invalid resource!");
+        }
+
         for(int i = 0; i < resourcesAmount; i++){
-            if(content[i].equals(resourceToComplete)){
+            if(content[i] == null){
+                continue;
+            }
+            if(content[i].getName().equals(resourceToComplete.getName())){
                 content[i].complete();
+                if(areAllResourcesCompleted()){
+                    setCompleted();
+                }
                 return;
             }
         }
         throw new ResourceNotFoundException("Resource was not found in this course!");
+    }
+
+    private boolean areAllResourcesCompleted(){
+        for(int i = 0; i < resourcesAmount; i++){
+            if(!content[i].isCompleted()){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -77,12 +99,15 @@ public class Course implements Completable, Purchasable {
 
     @Override
     public int getCompletionPercentage() {
-        int completionPercentage = 0;
+        double sum = 0;
         for(int i = 0; i < resourcesAmount; i++){
-            completionPercentage += content[i].getCompletionPercentage();
+            sum += content[i].getCompletionPercentage();
         }
-        completionPercentage /= resourcesAmount;
-        return completionPercentage;
+        if(resourcesAmount == 0){
+            return 0;
+        }
+        double completionPercentage = sum / resourcesAmount;
+        return (int) Math.round(completionPercentage);
     }
 
     @Override
@@ -113,4 +138,5 @@ public class Course implements Completable, Purchasable {
         result = 31 * result + Arrays.hashCode(content);
         return result;
     }
+
 }

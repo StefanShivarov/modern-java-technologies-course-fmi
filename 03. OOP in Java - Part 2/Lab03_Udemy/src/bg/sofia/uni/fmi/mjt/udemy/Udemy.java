@@ -8,8 +8,8 @@ import bg.sofia.uni.fmi.mjt.udemy.exception.CourseNotFoundException;
 
 public class Udemy implements LearningPlatform {
 
-    private static final int MAX_ACCOUNTS_AMOUNT = 100;
-    private static final int MAX_COURSES_AMOUNT = 100;
+    private static final int MAX_ACCOUNTS_AMOUNT = 200;
+    private static final int MAX_COURSES_AMOUNT = 200;
     private Account[] accounts;
     private Course[] courses;
     private int accountsAmount;
@@ -23,7 +23,7 @@ public class Udemy implements LearningPlatform {
         this.accountsAmount = accounts.length;
         this.coursesAmount = courses.length;
     }
-    
+
     @Override
     public Course findByName(String name) throws CourseNotFoundException {
         if(name == null || name.isBlank()){
@@ -40,20 +40,31 @@ public class Udemy implements LearningPlatform {
 
     @Override
     public Course[] findByKeyword(String keyword) {
-        if(keyword == null || keyword.isBlank()){
+        if(keyword == null || keyword.isBlank() || !isKeywordValid(keyword)){
             throw new IllegalArgumentException("Invalid keyword!");
         }
 
         Course[] coursesWithKeyword = new Course[MAX_COURSES_AMOUNT];
         int counter = 0;
         for(int i = 0; i < coursesAmount; i++){
-            if(courses[i].getDescription().contains(keyword)){
+            if(courses[i].getDescription().contains(keyword) || courses[i].getName().contains(keyword)){
                 coursesWithKeyword[counter++] = courses[i];
             }
         }
         Course[] result = new Course[counter];
         System.arraycopy(coursesWithKeyword, 0, result, 0, counter);
+
         return result;
+    }
+
+    private boolean isKeywordValid(String keyword){
+        for(int i = 0; i < keyword.length(); i++){
+            char symbol = keyword.charAt(i);
+            if(!((symbol >= 'a' && symbol <= 'z') || (symbol >= 'A' && symbol <= 'Z') || symbol == ' ')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

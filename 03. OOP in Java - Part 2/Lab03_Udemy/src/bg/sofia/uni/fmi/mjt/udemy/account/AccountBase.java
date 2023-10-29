@@ -10,14 +10,16 @@ import bg.sofia.uni.fmi.mjt.udemy.exception.InsufficientBalanceException;
 import bg.sofia.uni.fmi.mjt.udemy.exception.MaxCourseCapacityReachedException;
 import bg.sofia.uni.fmi.mjt.udemy.exception.ResourceNotFoundException;
 
+import java.util.Arrays;
+
 public abstract class AccountBase implements Account {
 
     protected static final int MAX_COURSES_CAPACITY = 100;
-    private String username;
+    protected String username;
     protected double balance;
     protected Course[] courses;
-    private double[] grades;
-    private int gradesAmount;
+    protected double[] grades;
+    protected int gradesAmount;
     protected int coursesAmount;
     protected final AccountType accountType;
     public AccountBase(String username, double balance) {
@@ -54,32 +56,49 @@ public abstract class AccountBase implements Account {
             throw new IllegalArgumentException("Invalid arguments! Course or resources are null!");
         }
 
-        Course searchCourse = findCourse(course);
-        if(searchCourse == null){
+        if(findCourse(course) == null){
             throw new CourseNotPurchasedException("Course is not purchased!");
         }
 
         for(int i = 0; i < resourcesToComplete.length; i++){
-            searchCourse.completeResource(resourcesToComplete[i]);
+            if(resourcesToComplete[i] == null){
+                break;
+            }
+            boolean found = false;
+            for(int j = 0; j < course.getResourcesAmount(); j++){
+                if(course.getContent()[j].equals(resourcesToComplete[i])) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                throw new ResourceNotFoundException("Resource not found!");
+            }
+        }
+
+        for(int i = 0; i < resourcesToComplete.length; i++){
+            if(resourcesToComplete[i] == null){
+                continue;
+            }
+            course.completeResource(resourcesToComplete[i]);
         }
     }
 
     @Override
     public void completeCourse(Course course, double grade) throws CourseNotPurchasedException, CourseNotCompletedException {
-        if(grade < 2 || grade > 6){
-            throw new IllegalArgumentException("Invalid grade!");
+        if(grade < 2 || grade > 6 || course == null){
+            throw new IllegalArgumentException("Invalid arguments!");
         }
 
-        Course foundCourse = findCourse(course);
-        if(foundCourse == null){
+        if(findCourse(course) == null){
             throw new CourseNotPurchasedException("Course is not purchased!");
         }
 
-        if(course.getCompletionPercentage() != 100){
+        if(course.getCompletionPercentage() != 100 && course.getResourcesAmount() != 0){
             throw new CourseNotCompletedException("There is a resource in the course which is not completed!");
         }
 
-        foundCourse.setCompleted();
+        course.setCompleted();
         grades[gradesAmount++] = grade;
     }
 
@@ -88,7 +107,7 @@ public abstract class AccountBase implements Account {
         for(int i = 0; i < gradesAmount; i++){
             sum += grades[i];
         }
-        return sum / gradesAmount;
+        return gradesAmount == 0 ? 0.0 : sum / gradesAmount;
     }
 
     @Override
@@ -117,6 +136,10 @@ public abstract class AccountBase implements Account {
 
     @Override
     public void buyCourse(Course course) throws InsufficientBalanceException, CourseAlreadyPurchasedException, MaxCourseCapacityReachedException {
+        if(course == null){
+            throw new IllegalArgumentException("Course is null!");
+        }
+
         if(balance < course.getPrice()){
             throw new InsufficientBalanceException("Not enough balance to buy this course!");
         }
