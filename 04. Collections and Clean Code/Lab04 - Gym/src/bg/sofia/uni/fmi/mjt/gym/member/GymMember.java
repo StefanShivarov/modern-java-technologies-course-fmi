@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface GymMember {
+public interface GymMember extends Comparable<GymMember> {
 
     String getName();
 
@@ -26,7 +26,7 @@ public interface GymMember {
 
     Collection<DayOfWeek> getDaysFinishingWith(String exerciseName);
 
-    void addExercise(DayOfWeek day, Exercise exercise) throws DayOffException;
+    void addExercise(DayOfWeek day, Exercise exercise);
 
-    void addExercises(DayOfWeek day, List<Exercise> exercises) throws DayOffException;
+    void addExercises(DayOfWeek day, List<Exercise> exercises);
 }

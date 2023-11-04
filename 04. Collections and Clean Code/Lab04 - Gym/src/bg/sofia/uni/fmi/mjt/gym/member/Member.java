@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.gym.workout.Workout;
 
 import java.time.DayOfWeek;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public class Member implements GymMember {
     }
 
     @Override
-    public void addExercise(DayOfWeek day, Exercise exercise) throws DayOffException {
+    public void addExercise(DayOfWeek day, Exercise exercise) {
         if (day == null || exercise == null) {
             throw new IllegalArgumentException("Invalid day or exercise!");
         }
@@ -97,7 +98,7 @@ public class Member implements GymMember {
     }
 
     @Override
-    public void addExercises(DayOfWeek day, List<Exercise> exercises) throws DayOffException {
+    public void addExercises(DayOfWeek day, List<Exercise> exercises) {
         if (day == null || exercises == null || exercises.isEmpty()) {
             throw new IllegalArgumentException("Invalid day or exercise!");
         }
@@ -108,5 +109,10 @@ public class Member implements GymMember {
         }
 
         workout.exercises().addAll(exercises);
+    }
+
+    @Override
+    public int compareTo(GymMember other) {
+        return this.name.compareTo(other.getName());
     }
 }
