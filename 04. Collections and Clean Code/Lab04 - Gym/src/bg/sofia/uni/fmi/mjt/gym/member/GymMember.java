@@ -26,7 +26,7 @@ public interface GymMember {
 
     Collection<DayOfWeek> getDaysFinishingWith(String exerciseName);
 
-    void addExercise(DayOfWeek day, Exercise exercise);
+    void addExercise(DayOfWeek day, Exercise exercise) throws DayOffException;
 
-    void addExercises(DayOfWeek day, List<Exercise> exercises);
+    void addExercises(DayOfWeek day, List<Exercise> exercises) throws DayOffException;
 }
