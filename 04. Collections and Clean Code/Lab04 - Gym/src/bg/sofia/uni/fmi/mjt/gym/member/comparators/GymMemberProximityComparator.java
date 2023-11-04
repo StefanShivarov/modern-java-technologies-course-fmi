@@ -15,7 +15,7 @@ public class GymMemberProximityComparator implements Comparator<GymMember> {
 
     @Override
     public int compare(GymMember o1, GymMember o2) {
-        return Double.compare(o2.getAddress().getDistanceTo(gymAddress), o1.getAddress().getDistanceTo(gymAddress));
+        return Double.compare(o1.getAddress().getDistanceTo(gymAddress), o2.getAddress().getDistanceTo(gymAddress));
     }
 
 }

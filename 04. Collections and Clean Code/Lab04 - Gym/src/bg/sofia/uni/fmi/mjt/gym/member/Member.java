@@ -37,7 +37,7 @@ public class Member implements GymMember {
 
     @Override
     public int getAge() {
-        return 200;
+        return age;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class Member implements GymMember {
         }
 
         Workout workout = trainingProgram.get(day);
-        if (workout == null || workout.exercises().isEmpty()) {
+        if (workout == null) {
             throw new DayOffException("It's a rest day on " + day + "!");
         }
 
@@ -126,7 +126,7 @@ public class Member implements GymMember {
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, name, age, id, gender, trainingProgram);
+        return Objects.hash(id);
     }
 
 }

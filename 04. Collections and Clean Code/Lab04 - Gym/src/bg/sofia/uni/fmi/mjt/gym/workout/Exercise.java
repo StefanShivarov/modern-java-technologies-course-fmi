@@ -14,7 +14,7 @@ public record Exercise(String name, int sets, int repetitions) {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, sets, repetitions);
+        return Objects.hash(name);
     }
 
 }

@@ -50,7 +50,7 @@ public class Gym implements GymAPI {
             throw new IllegalArgumentException("Member is null!");
         }
 
-        if (members.size() == capacity) {
+        if (members.size() >= capacity) {
             throw new GymCapacityExceededException("Gym is already full!");
         }
 
@@ -63,7 +63,7 @@ public class Gym implements GymAPI {
             throw new IllegalArgumentException("Members is null or empty!");
         }
 
-        if (members.size() == capacity) {
+        if (this.members.size() + members.size() >= capacity) {
             throw new GymCapacityExceededException("Gym is already full!");
         }
 
@@ -104,11 +104,14 @@ public class Gym implements GymAPI {
         for (DayOfWeek day : DayOfWeek.values()) {
             List<String> names = new ArrayList<>();
             for (GymMember member : members) {
-                if (member.getTrainingProgram().get(day).hasExercise(exerciseName)) {
+                if (member.getTrainingProgram().get(day) != null
+                        && member.getTrainingProgram().get(day).hasExercise(exerciseName)) {
                     names.add(member.getName());
                 }
             }
-            result.put(day, names);
+            if (!names.isEmpty()) {
+                result.put(day, names);
+            }
         }
 
         return Collections.unmodifiableMap(result);
