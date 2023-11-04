@@ -12,4 +12,5 @@ public record Workout(SequencedCollection<Exercise> exercises) {
         }
         return false;
     }
+
 }

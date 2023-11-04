@@ -9,4 +9,5 @@ public class DayOffException extends RuntimeException {
     public DayOffException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

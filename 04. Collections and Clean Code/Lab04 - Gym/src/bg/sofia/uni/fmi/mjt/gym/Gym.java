@@ -2,7 +2,6 @@ package bg.sofia.uni.fmi.mjt.gym;
 
 import bg.sofia.uni.fmi.mjt.gym.member.Address;
 import bg.sofia.uni.fmi.mjt.gym.member.GymMember;
-import bg.sofia.uni.fmi.mjt.gym.member.Member;
 import bg.sofia.uni.fmi.mjt.gym.member.comparators.GymMemberProximityComparator;
 
 import java.time.DayOfWeek;
@@ -114,4 +113,5 @@ public class Gym implements GymAPI {
 
         return Collections.unmodifiableMap(result);
     }
+
 }

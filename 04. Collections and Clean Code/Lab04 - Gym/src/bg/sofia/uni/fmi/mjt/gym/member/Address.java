@@ -6,4 +6,5 @@ public record Address(double longitude, double latitude) {
         return Math.sqrt(Math.pow(other.longitude - this.longitude, 2)
                 + Math.pow(other.latitude - this.latitude, 2));
     }
+
 }

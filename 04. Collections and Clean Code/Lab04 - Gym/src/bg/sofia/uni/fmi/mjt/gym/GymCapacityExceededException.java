@@ -9,4 +9,5 @@ public class GymCapacityExceededException extends Exception {
     public GymCapacityExceededException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }
