@@ -35,33 +35,44 @@ public class UtilityService implements UtilityServiceAPI {
             throw new IllegalArgumentException("Billable is null!");
         }
 
-        double waterCost = taxRates.get(UtilityType.WATER) * billable.getWaterConsumption();
-        double electricityCost = taxRates.get(UtilityType.ELECTRICITY) * billable.getElectricityConsumption();
-        double gasCost = taxRates.get(UtilityType.NATURAL_GAS) * billable.getNaturalGasConsumption();
+        double waterCost =
+                taxRates.get(UtilityType.WATER) * billable.getWaterConsumption();
+        double electricityCost =
+                taxRates.get(UtilityType.ELECTRICITY) * billable.getElectricityConsumption();
+        double gasCost =
+                taxRates.get(UtilityType.NATURAL_GAS) * billable.getNaturalGasConsumption();
 
         return waterCost + electricityCost + gasCost;
     }
 
     @Override
-    public <T extends Billable> Map<UtilityType, Double> computeCostsDifference(T firstBillable, T secondBillable) {
+    public <T extends Billable> Map<UtilityType, Double> computeCostsDifference(
+            T firstBillable, T secondBillable) {
         if (firstBillable == null || secondBillable == null) {
             throw new IllegalArgumentException("Billable is null!");
         }
 
         double waterDiff = roundToTwoDecimalPlaces(
                 taxRates.get(UtilityType.WATER) *
-                        Math.abs(firstBillable.getWaterConsumption() - secondBillable.getWaterConsumption())
+                        Math.abs(firstBillable.getWaterConsumption() -
+                                secondBillable.getWaterConsumption())
         );
         double electricityDiff = roundToTwoDecimalPlaces(
                 taxRates.get(UtilityType.ELECTRICITY) *
-                        Math.abs(firstBillable.getElectricityConsumption() - secondBillable.getElectricityConsumption())
+                        Math.abs(firstBillable.getElectricityConsumption() -
+                                secondBillable.getElectricityConsumption())
         );
         double naturalGasDiff = roundToTwoDecimalPlaces(
                 taxRates.get(UtilityType.NATURAL_GAS) *
-                        Math.abs(firstBillable.getNaturalGasConsumption() - secondBillable.getNaturalGasConsumption())
+                        Math.abs(firstBillable.getNaturalGasConsumption() -
+                                secondBillable.getNaturalGasConsumption())
         );
 
-        return Map.of(UtilityType.WATER, waterDiff, UtilityType.ELECTRICITY, electricityDiff, UtilityType.NATURAL_GAS, naturalGasDiff);
+        return Map.of(
+                UtilityType.WATER, waterDiff,
+                UtilityType.ELECTRICITY, electricityDiff,
+                UtilityType.NATURAL_GAS, naturalGasDiff
+        );
     }
 
 }

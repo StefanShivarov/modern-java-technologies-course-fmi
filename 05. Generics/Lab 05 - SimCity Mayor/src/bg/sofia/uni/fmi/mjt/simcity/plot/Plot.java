@@ -5,7 +5,6 @@ import bg.sofia.uni.fmi.mjt.simcity.exception.BuildableNotFoundException;
 import bg.sofia.uni.fmi.mjt.simcity.exception.InsufficientPlotAreaException;
 import bg.sofia.uni.fmi.mjt.simcity.property.buildable.Buildable;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,7 +27,9 @@ public class Plot<E extends Buildable> implements PlotAPI<Buildable> {
         }
 
         if (buildables.containsKey(address)) {
-            throw new BuildableAlreadyExistsException("Buildable with address " + address + " already exists on plot!");
+            throw new BuildableAlreadyExistsException("Buildable with address "
+                    + address
+                    + " already exists on plot!");
         }
 
         if (buildable.getArea() > remainingArea) {
@@ -48,7 +49,9 @@ public class Plot<E extends Buildable> implements PlotAPI<Buildable> {
         int buildablesTotalArea = 0;
         for (Map.Entry<String, Buildable> entry : buildables.entrySet()) {
             if (this.buildables.containsKey(entry.getKey())) {
-                throw new BuildableAlreadyExistsException("Buildable with address " + entry.getKey() + " already exists on plot!");
+                throw new BuildableAlreadyExistsException("Buildable with address "
+                        + entry.getKey()
+                        + " already exists on plot!");
             }
 
             buildablesTotalArea += entry.getValue().getArea();
@@ -68,7 +71,9 @@ public class Plot<E extends Buildable> implements PlotAPI<Buildable> {
         }
 
         if (!buildables.containsKey(address)) {
-            throw new BuildableNotFoundException("No buildable with address " + address + " was found!");
+            throw new BuildableNotFoundException("No buildable with address "
+                    + address
+                    + " was found!");
         }
 
         Buildable demolished = buildables.remove(address);

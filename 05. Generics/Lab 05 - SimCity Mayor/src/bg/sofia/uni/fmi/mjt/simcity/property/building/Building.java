@@ -11,7 +11,13 @@ public abstract class Building implements Billable {
     private double electricityConsumption;
     private double naturalGasConsumption;
 
-    public Building(BuildableType type, int area, double waterConsumption, double electricityConsumption, double naturalGasConsumption) {
+    public Building(
+            BuildableType type,
+            int area,
+            double waterConsumption,
+            double electricityConsumption,
+            double naturalGasConsumption
+    ) {
         this.type = type;
         this.area = area;
         this.waterConsumption = waterConsumption;
