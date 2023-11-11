@@ -3,7 +3,7 @@ package bg.sofia.uni.fmi.mjt.simcity.property.building;
 import bg.sofia.uni.fmi.mjt.simcity.property.billable.Billable;
 import bg.sofia.uni.fmi.mjt.simcity.property.buildable.BuildableType;
 
-public class Building implements Billable {
+public abstract class Building implements Billable {
 
     private final BuildableType type;
     private final int area;
