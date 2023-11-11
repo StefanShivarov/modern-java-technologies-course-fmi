@@ -1,5 +1,8 @@
 package bg.sofia.uni.fmi.mjt.simcity.plot;
 
+import bg.sofia.uni.fmi.mjt.simcity.exception.BuildableAlreadyExistsException;
+import bg.sofia.uni.fmi.mjt.simcity.exception.BuildableNotFoundException;
+import bg.sofia.uni.fmi.mjt.simcity.exception.InsufficientPlotAreaException;
 import bg.sofia.uni.fmi.mjt.simcity.property.buildable.Buildable;
 
 import java.util.Map;
@@ -58,6 +61,5 @@ public interface PlotAPI<E extends Buildable> {
      * @return The remaining buildable area on the plot.
      */
     int getRemainingBuildableArea();
-
 
 }
