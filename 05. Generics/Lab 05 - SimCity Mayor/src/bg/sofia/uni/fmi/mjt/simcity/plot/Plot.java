@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Plot implements PlotAPI<Buildable> {
+public class Plot<E extends Buildable> implements PlotAPI<Buildable> {
 
     private Map<String, Buildable> buildables;
     private final int buildableArea;
@@ -83,7 +83,7 @@ public class Plot implements PlotAPI<Buildable> {
 
     @Override
     public Map<String, Buildable> getAllBuildables() {
-        return Collections.unmodifiableMap(buildables);
+        return Map.copyOf(buildables);
     }
 
     @Override

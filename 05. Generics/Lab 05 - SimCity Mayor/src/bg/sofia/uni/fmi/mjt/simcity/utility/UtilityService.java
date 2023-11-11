@@ -26,7 +26,7 @@ public class UtilityService implements UtilityServiceAPI {
             case NATURAL_GAS -> billable.getNaturalGasConsumption();
         };
 
-        return roundToTwoDecimalPlaces(taxRates.get(utilityType) * consumption);
+        return taxRates.get(utilityType) * consumption;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UtilityService implements UtilityServiceAPI {
         double electricityCost = taxRates.get(UtilityType.ELECTRICITY) * billable.getElectricityConsumption();
         double gasCost = taxRates.get(UtilityType.NATURAL_GAS) * billable.getNaturalGasConsumption();
 
-        return roundToTwoDecimalPlaces(waterCost + electricityCost + gasCost);
+        return waterCost + electricityCost + gasCost;
     }
 
     @Override
