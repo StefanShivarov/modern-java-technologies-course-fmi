@@ -1,12 +1,17 @@
 package bg.sofia.uni.fmi.mjt.intelligenthome.center;
 
+import bg.sofia.uni.fmi.mjt.intelligenthome.center.comparator.DeviceRegistrationComparator;
+import bg.sofia.uni.fmi.mjt.intelligenthome.center.comparator.KWhComparator;
 import bg.sofia.uni.fmi.mjt.intelligenthome.center.exceptions.DeviceAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.intelligenthome.center.exceptions.DeviceNotFoundException;
 import bg.sofia.uni.fmi.mjt.intelligenthome.device.DeviceType;
 import bg.sofia.uni.fmi.mjt.intelligenthome.device.IoTDevice;
 import bg.sofia.uni.fmi.mjt.intelligenthome.storage.DeviceStorage;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class IntelligentHomeCenter {
 
@@ -27,7 +32,12 @@ public class IntelligentHomeCenter {
             throw new IllegalArgumentException("Device is null!");
         }
 
-        throw new UnsupportedOperationException();
+        if (storage.exists(device.getId())) {
+            throw new DeviceAlreadyRegisteredException("Device is already registered!");
+        }
+
+        storage.store(device.getId(), device);
+        device.setRegistration(LocalDateTime.now());
     }
 
     /**
@@ -40,7 +50,13 @@ public class IntelligentHomeCenter {
         if (device == null) {
             throw new IllegalArgumentException("Device is null!");
         }
-        throw new UnsupportedOperationException();
+
+        if (!storage.exists(device.getId())) {
+            throw new DeviceNotFoundException("Device not found!");
+        }
+
+        storage.delete(device.getId());
+        //device.setRegistration(null);
     }
 
     /**
@@ -53,7 +69,12 @@ public class IntelligentHomeCenter {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException("Id is null or blank!");
         }
-        throw new UnsupportedOperationException();
+
+        if (!storage.exists(id)) {
+            throw new DeviceNotFoundException("Device with id " + id + " not found!");
+        }
+
+        return storage.get(id);
     }
 
     /**
@@ -66,7 +87,14 @@ public class IntelligentHomeCenter {
             throw new IllegalArgumentException("Device type is null!");
         }
 
-        throw new UnsupportedOperationException();
+        int quantity = 0;
+        for (IoTDevice device : storage.listAll()) {
+            if (device.getType() == type) {
+                quantity++;
+            }
+        }
+
+        return quantity;
     }
 
     /**
@@ -86,7 +114,19 @@ public class IntelligentHomeCenter {
             throw new IllegalArgumentException("N is a negative number!");
         }
 
-        throw new UnsupportedOperationException();
+        List<IoTDevice> devices = new ArrayList<>(storage.listAll());
+        devices.sort(new KWhComparator());
+        List<String> sortedIds = new ArrayList<>();
+
+        if (n > devices.size()) {
+            n = devices.size();
+        }
+
+        for (int i = 0; i < n; i++) {
+            sortedIds.add(devices.get(i).getId());
+        }
+
+        return sortedIds;
     }
 
     /**
@@ -102,7 +142,19 @@ public class IntelligentHomeCenter {
             throw new IllegalArgumentException("N is a negative number!");
         }
 
-        throw new UnsupportedOperationException();
+        List<IoTDevice> devices = new ArrayList<>(storage.listAll());
+        devices.sort(new DeviceRegistrationComparator());
+        List<IoTDevice> result = new ArrayList<>();
+
+        if (n > devices.size()) {
+            n = devices.size();
+        }
+
+        for (int i = 0; i < n; i++) {
+            result.add(devices.get(i));
+        }
+
+        return result;
     }
 
 }

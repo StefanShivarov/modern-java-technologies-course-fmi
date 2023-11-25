@@ -47,7 +47,7 @@ public abstract class IoTDeviceBase implements IoTDevice {
 
     @Override
     public long getRegistration() {
-        return 0;
+        return Duration.between(registration, LocalDateTime.now()).toHours();
     }
 
     @Override
@@ -58,7 +58,7 @@ public abstract class IoTDeviceBase implements IoTDevice {
     @Override
     public long getPowerConsumptionKWh() {
         long duration = Duration.between(getInstallationDateTime(), LocalDateTime.now()).toHours();
-        return (long) (duration * getPowerConsumption());
+        return (long) (duration * powerConsumption);
     }
 
     @Override
