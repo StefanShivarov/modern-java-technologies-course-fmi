@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public abstract class IoTDeviceBase implements IoTDevice {
 
-    protected static int uniqueNumberDevice = 0;
+    public static int uniqueNumberDevice = 0;
     protected String id;
     protected DeviceType type;
     private String name;
@@ -58,7 +58,7 @@ public abstract class IoTDeviceBase implements IoTDevice {
     @Override
     public long getPowerConsumptionKWh() {
         long duration = Duration.between(getInstallationDateTime(), LocalDateTime.now()).toHours();
-        return (long) (duration * powerConsumption);
+        return (long) (duration * getPowerConsumption());
     }
 
     @Override

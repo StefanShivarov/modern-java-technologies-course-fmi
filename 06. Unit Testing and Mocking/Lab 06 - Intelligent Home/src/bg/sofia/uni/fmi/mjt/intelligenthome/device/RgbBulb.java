@@ -7,7 +7,7 @@ public class RgbBulb extends IoTDeviceBase {
     public RgbBulb(String name, double powerConsumption, LocalDateTime installationDateTime) {
         super(name, powerConsumption, installationDateTime);
         type = DeviceType.BULB;
-        id = String.format("%s-%s-%d", type.getShortName(), name, uniqueNumberDevice++);
+        id = String.format("%s-%s-%d", getType().getShortName(), getName(), uniqueNumberDevice++);
     }
 
 
