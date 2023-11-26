@@ -6,8 +6,4 @@ public class DeviceNotFoundException extends Exception {
         super(message);
     }
 
-    public DeviceNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

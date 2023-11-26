@@ -11,6 +11,7 @@ import bg.sofia.uni.fmi.mjt.intelligenthome.storage.DeviceStorage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class IntelligentHomeCenter {
@@ -56,7 +57,6 @@ public class IntelligentHomeCenter {
         }
 
         storage.delete(device.getId());
-        //device.setRegistration(null);
     }
 
     /**
@@ -116,6 +116,7 @@ public class IntelligentHomeCenter {
 
         List<IoTDevice> devices = new ArrayList<>(storage.listAll());
         devices.sort(new KWhComparator());
+        Collections.reverse(devices);
         List<String> sortedIds = new ArrayList<>();
 
         if (n > devices.size()) {
@@ -144,6 +145,7 @@ public class IntelligentHomeCenter {
 
         List<IoTDevice> devices = new ArrayList<>(storage.listAll());
         devices.sort(new DeviceRegistrationComparator());
+        Collections.reverse(devices);
         List<IoTDevice> result = new ArrayList<>();
 
         if (n > devices.size()) {
