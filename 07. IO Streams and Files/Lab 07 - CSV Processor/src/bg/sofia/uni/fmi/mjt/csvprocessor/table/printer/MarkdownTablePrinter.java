@@ -15,10 +15,22 @@ public class MarkdownTablePrinter implements TablePrinter {
     public Collection<String> printTable(Table table, ColumnAlignment... alignments) {
         List<String> tableRows = new ArrayList<>();
 
-        StringBuilder headerRowBuilder = new StringBuilder().append('|'),
-                alignmentsRowBuilder = new StringBuilder().append('|');
+        addHeadersAndAlignmentsToList(tableRows, table, alignments);
+        addDataRowsToList(tableRows, table);
 
-        int columnsAmount = table.getColumnNames().size(), alignmentsIndex = 0;
+        return Collections.unmodifiableList(tableRows);
+    }
+
+    private void addHeadersAndAlignmentsToList(
+            List<String> tableRows,
+            Table table,
+            ColumnAlignment... alignments
+    ) {
+        StringBuilder headerRowBuilder = new StringBuilder().append('|');
+        StringBuilder alignmentsRowBuilder = new StringBuilder().append('|');
+
+        int columnsAmount = table.getColumnNames().size();
+        int alignmentsIndex = 0;
         for (String header : table.getColumnNames()) {
             int maxLengthForColumn = getMaxLengthForColumn(table, header);
             headerRowBuilder
@@ -36,7 +48,9 @@ public class MarkdownTablePrinter implements TablePrinter {
 
         tableRows.add(headerRowBuilder.toString());
         tableRows.add(alignmentsRowBuilder.toString());
+    }
 
+    private void addDataRowsToList(List<String> tableRows, Table table) {
         for (int i = 0; i < table.getRowsCount() - 1; i++) {
             StringBuilder rowBuilder = new StringBuilder().append('|');
 
@@ -49,8 +63,6 @@ public class MarkdownTablePrinter implements TablePrinter {
 
             tableRows.add(rowBuilder.toString());
         }
-
-        return Collections.unmodifiableList(tableRows);
     }
 
     private String formatCell(String data, int maxLength) {

@@ -63,7 +63,7 @@ public class CsvProcessor implements CsvProcessorAPI {
 
         Collection<String> tableRows = new MarkdownTablePrinter().printTable(table, alignments);
 
-        try{
+        try {
             writer.write(String.join(System.lineSeparator(), tableRows));
             writer.flush();
         } catch (IOException e) {
@@ -78,4 +78,5 @@ public class CsvProcessor implements CsvProcessorAPI {
             }
         }
     }
+
 }
