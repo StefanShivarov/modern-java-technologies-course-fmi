@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.mjt.csvprocessor.table.column;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface Column {
 

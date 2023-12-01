@@ -16,6 +16,7 @@ public class BaseTable implements Table {
 
     public BaseTable() {
         this.tableColumns = new LinkedHashMap<>();
+        this.rowsCount = 0;
     }
 
     @Override
@@ -38,7 +39,6 @@ public class BaseTable implements Table {
                 column.addData(data[dataIndex++]);
             }
         }
-
         rowsCount++;
     }
 
@@ -49,6 +49,10 @@ public class BaseTable implements Table {
 
     @Override
     public Collection<String> getColumnData(String column) {
+        if (column == null || column.isBlank() || !tableColumns.containsKey(column)) {
+            throw new IllegalArgumentException("Column is null or blank!");
+        }
+
         return tableColumns.get(column).getData();
     }
 
