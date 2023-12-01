@@ -8,12 +8,9 @@ import java.util.Set;
 public class BaseColumn implements Column {
 
     private Set<String> values;
-    private static final int MIN_LENGTH = 3;
-    private int maxLength;
 
     public BaseColumn() {
         this(new LinkedHashSet<>());
-        this.maxLength = MIN_LENGTH;
     }
 
     public BaseColumn(Set<String> values) {
@@ -26,20 +23,12 @@ public class BaseColumn implements Column {
             throw new IllegalArgumentException("Data is null or blank!");
         }
 
-        if (data.length() > maxLength) {
-            maxLength = data.length();
-        }
-
         values.add(data);
     }
 
     @Override
     public Collection<String> getData() {
         return Collections.unmodifiableSet(values);
-    }
-
-    public int getMaxLength() {
-        return maxLength;
     }
 
 }
