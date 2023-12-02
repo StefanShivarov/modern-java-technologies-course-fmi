@@ -9,6 +9,27 @@ public record Player(
         int overallRating, int potential, long valueEuro, long wageEuro, Foot preferredFoot
 ) {
 
+    double calculateProspect() {
+        return (double) (overallRating + potential) / age;
+    }
 
+    boolean isSimilarTo(Player other) {
+        boolean canPlayInSamePosition = other.positions.stream()
+                .anyMatch(this.positions::contains);
 
+        return canPlayInSamePosition
+                && this.preferredFoot == other.preferredFoot
+                && Math.abs(this.overallRating - other.overallRating) <= 3;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Name: %s, Age: %d, Overall: %d, Nationality: %s, Positions: %s",
+                name,
+                age,
+                overallRating,
+                nationality,
+                positions
+        );
+    }
 }
