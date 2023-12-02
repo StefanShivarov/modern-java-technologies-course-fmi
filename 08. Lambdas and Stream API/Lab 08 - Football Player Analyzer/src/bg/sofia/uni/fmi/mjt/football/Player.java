@@ -21,15 +21,5 @@ public record Player(
                 && this.preferredFoot == other.preferredFoot
                 && Math.abs(this.overallRating - other.overallRating) <= 3;
     }
-
-    @Override
-    public String toString() {
-        return String.format("Name: %s, Age: %d, Overall: %d, Nationality: %s, Positions: %s",
-                name,
-                age,
-                overallRating,
-                nationality,
-                positions
-        );
-    }
+    
 }
