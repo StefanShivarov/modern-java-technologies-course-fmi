@@ -21,5 +21,5 @@ public record Player(
                 && this.preferredFoot == other.preferredFoot
                 && Math.abs(this.overallRating - other.overallRating) <= 3;
     }
-    
+
 }
