@@ -26,3 +26,5 @@ replay_pid*
 *.xml
 *.iml
 *.idea
+
+*/out/*
