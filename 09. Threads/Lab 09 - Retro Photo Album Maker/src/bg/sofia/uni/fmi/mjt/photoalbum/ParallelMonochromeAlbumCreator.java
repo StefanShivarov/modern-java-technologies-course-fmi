@@ -36,7 +36,6 @@ public class ParallelMonochromeAlbumCreator implements MonochromeAlbumCreator {
         AtomicBoolean allImagesLoaded = new AtomicBoolean(false);
         AtomicInteger loadedImagesAmount = new AtomicInteger(0);
 
-        List<Thread> producerThreads = new ArrayList<>();
         try {
             List<Path> imagePaths = getImagePaths(sourcePath);
             AtomicInteger imagesAmount = new AtomicInteger(imagePaths.size());
@@ -44,25 +43,20 @@ public class ParallelMonochromeAlbumCreator implements MonochromeAlbumCreator {
                 Thread producer = new Thread(
                         new ImageProducer(path, images, loadedImagesAmount, imagesAmount, allImagesLoaded)
                 );
-                producerThreads.add(producer);
                 producer.start();
             });
         } catch (IOException e) {
             throw new RuntimeException("Failed to get image paths! " + e.getMessage(), e);
         }
 
-        List<Thread> consumerThreads = new ArrayList<>(imageProcessorsCount);
         for (int i = 0; i < imageProcessorsCount; i++) {
             Thread consumer = new Thread(
                     new ImageConsumer(outputDirectory, images, allImagesLoaded)
             );
             consumer.setName("Consumer-" + i);
-            consumerThreads.add(i, consumer);
             consumer.start();
         }
 
-        joinThreads(producerThreads);
-        joinThreads(consumerThreads);
     }
 
     private void createDirectoriesIfNecessary(Path outputPath) {
@@ -83,18 +77,6 @@ public class ParallelMonochromeAlbumCreator implements MonochromeAlbumCreator {
                             || path.toString().toLowerCase().endsWith(".jpeg")
                             || path.toString().toLowerCase().endsWith(".png"))
                     .collect(Collectors.toList());
-        }
-    }
-
-    private void joinThreads(List<Thread> threads) {
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
-            System.out.println(thread.getName() + " joined!");
         }
     }
 
