@@ -20,4 +20,14 @@ public class Image {
         return data;
     }
 
+    public String getFormat() {
+        int lastDotIndex = name.lastIndexOf('.');
+
+        if (lastDotIndex != -1 && lastDotIndex < name.length() - 1) {
+            return name.substring(lastDotIndex + 1).toLowerCase();
+        }
+
+        return "png";
+    }
+
 }
