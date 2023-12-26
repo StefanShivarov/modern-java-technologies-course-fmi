@@ -15,4 +15,14 @@ public enum RocketStatus {
         return value;
     }
 
+    public static RocketStatus fromValue(String value) {
+        for (RocketStatus rocketStatus : RocketStatus.values()) {
+            if (rocketStatus.value.equals(value)) {
+                return rocketStatus;
+            }
+        }
+
+        return null;
+    }
+
 }

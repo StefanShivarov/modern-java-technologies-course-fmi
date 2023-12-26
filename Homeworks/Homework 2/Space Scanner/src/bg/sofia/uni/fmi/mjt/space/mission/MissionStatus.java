@@ -17,4 +17,13 @@ public enum MissionStatus {
         return value;
     }
 
+    public static MissionStatus fromValue(String value) {
+        for (MissionStatus missionStatus : MissionStatus.values()) {
+            if (missionStatus.value.equals(value)) {
+                return missionStatus;
+            }
+        }
+
+        return null;
+    }
 }
