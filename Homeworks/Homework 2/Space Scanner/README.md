@@ -64,6 +64,7 @@ public interface SpaceScannerAPI {
      * @param from the inclusive beginning of the time frame
      * @param to   the inclusive end of the time frame
      * @throws IllegalArgumentException if from or to is null
+     * @throws TimeFrameMismatchException if to is before from
      */
     String getCompanyWithMostSuccessfulMissions(LocalDate from, LocalDate to);
 
@@ -97,6 +98,7 @@ public interface SpaceScannerAPI {
      * @param from the inclusive beginning of the time frame
      * @param to   the inclusive end of the time frame
      * @throws IllegalArgumentException if from or to is null
+     * @throws TimeFrameMismatchException if to is before from
      */
     Map<String, String> getLocationWithMostSuccessfulMissionsPerCompany(LocalDate from, LocalDate to);
 
@@ -134,13 +136,14 @@ public interface SpaceScannerAPI {
                                                                    RocketStatus rocketStatus);
 
     /**
-     * Saves the most reliable rocket in a given time period in an encrypted format.
+     * Saves the name of the most reliable rocket in a given time period in an encrypted format.
      *
      * @param outputStream the output stream where the encrypted result is written into
      * @param from         the inclusive beginning of the time frame
      * @param to           the inclusive end of the time frame
      * @throws IllegalArgumentException if outputStream, from or to is null
      * @throws CipherException if the encrypt/decrypt operation cannot be completed successfully
+     * @throws TimeFrameMismatchException if to is before from
      */
     void saveMostReliableRocket(OutputStream outputStream, LocalDate from, LocalDate to) throws CipherException;
 }
@@ -222,6 +225,17 @@ public enum RocketStatus {
 ```
 
 Трите record-a: `Mission`, `Detail` и `Rocket` трябва да имат публичен каноничен конструктор.
+
+#### Rocket reliability
+
+Reliability-то на дадена ракета ще пресмятаме по следната формула:
+
+```
+(2 * (броят на успешните мисии на ракетата) + (броят на неуспешните мисии на ракетата)) / (2 * (броят на всички мисии на ракетата))
+```
+
+Неуспешна мисия считаме за такава със статус MissionStatus.FAILURE, MissionStatus.PARTIAL_FAILURE или MissionStatus.PRELAUNCH_FAILURE.
+Ракетите, които не са участвали в мисии, имат reliability 0.
 
 Алгоритъмът за криптиране (**AES**) има имплементация в JDK-то (в `javax.crypto` пакета) и е разглеждан с code snippet на упражнение. Създайте клас **Rijndael**, който има следния конструктор:
 
