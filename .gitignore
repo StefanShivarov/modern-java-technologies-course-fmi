@@ -29,4 +29,5 @@ replay_pid*
 
 */out/*
 */production/*
+*/out/production/*.csv
 
