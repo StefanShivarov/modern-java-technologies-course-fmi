@@ -14,6 +14,8 @@ import bg.sofia.uni.fmi.mjt.space.rocket.RocketStatus;
 import javax.crypto.SecretKey;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -21,6 +23,7 @@ import java.io.Reader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +75,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
     public Map<String, Collection<Mission>> getMissionsPerCountry() {
         return missions.stream()
                 .collect(Collectors.groupingBy(
-                        mission -> mission.location().split("\\s+,\\s+")[2],
+                        mission -> {
+                            String[] locationTokens = mission.location().split(",\\s+");
+                            return locationTokens[locationTokens.length - 1];
+                        },
                         Collectors.toCollection(ArrayList::new)
                 ));
     }
@@ -93,7 +99,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                 .collect(Collectors.groupingBy(
                         Mission::company,
                         Collectors.groupingBy(
-                                Mission::location,
+                                mission -> {
+                                    String[] locationTokens = mission.location().split(",\\s+");
+                                    return locationTokens[locationTokens.length - 1];
+                                },
                                 Collectors.counting()
                         )
                 ))
@@ -119,7 +128,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                 .collect(Collectors.groupingBy(
                         Mission::company,
                         Collectors.groupingBy(
-                                Mission::location,
+                                mission -> {
+                                    String[] locationTokens = mission.location().split(",\\s+");
+                                    return locationTokens[locationTokens.length - 1];
+                                },
                                 Collectors.counting()
                         )
                 ))
@@ -141,7 +153,8 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
     @Override
     public List<Rocket> getTopNTallestRockets(int n) {
         return rockets.stream()
-                .sorted(Comparator.comparingDouble(r -> r.height().orElse(0.0)))
+                .filter(rocket -> rocket.height().isPresent())
+                .sorted((r1, r2) -> Double.compare(r2.height().get(), r1.height().get()))
                 .limit(n)
                 .toList();
     }
@@ -198,24 +211,7 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                 .orElse(null);
 
         if (mostReliableRocket != null) {
-            serializeEncryptedRocket(mostReliableRocket, outputStream);
-        }
-    }
-
-    private void serializeEncryptedRocket(Rocket rocket, OutputStream outputStream) throws CipherException {
-        try (
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)
-        ) {
-            objectOutputStream.writeObject(rocket);
-            objectOutputStream.flush();
-
-            rijndael.encrypt(
-                    new ByteArrayInputStream(byteArrayOutputStream.toByteArray()),
-                    outputStream
-            );
-        } catch (IOException e) {
-            throw new CipherException("Error occurred while encrypting and saving rocket data!", e);
+            rijndael.serializeRocket(mostReliableRocket, outputStream);
         }
     }
 
