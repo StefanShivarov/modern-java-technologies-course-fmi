@@ -44,6 +44,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
 
     @Override
     public Collection<Mission> getAllMissions(MissionStatus missionStatus) {
+        if (missionStatus == null) {
+            throw new IllegalArgumentException("Mission status is null!");
+        }
+
         return missions.stream()
                 .filter(mission -> mission.missionStatus() == missionStatus)
                 .toList();
@@ -51,6 +55,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
 
     @Override
     public String getCompanyWithMostSuccessfulMissions(LocalDate from, LocalDate to) {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("Date is null!");
+        }
+
         if (from.isAfter(to)) {
             throw new TimeFrameMismatchException("Invalid time frame!");
         }
@@ -78,7 +86,15 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
     }
 
     @Override
-    public List<Mission> getTopNLeastExpensiveMissions(int n, MissionStatus missionStatus, RocketStatus rocketStatus) {
+    public List<Mission> getTopNLeastExpensiveMissions(
+            int n,
+            MissionStatus missionStatus,
+            RocketStatus rocketStatus
+    ) {
+        if (n <= 0 || missionStatus == null || rocketStatus == null) {
+            throw new IllegalArgumentException("N is not positive or status is null!");
+        }
+
         return missions.stream()
                 .filter(mission -> mission.missionStatus() == missionStatus)
                 .filter(mission -> mission.rocketStatus() == rocketStatus)
@@ -93,10 +109,7 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                 .collect(Collectors.groupingBy(
                         Mission::company,
                         Collectors.groupingBy(
-                                mission -> {
-                                    String[] locationTokens = mission.location().split(",\\s+");
-                                    return locationTokens[locationTokens.length - 1];
-                                },
+                                Mission::location,
                                 Collectors.counting()
                         )
                 ))
@@ -111,7 +124,12 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
     }
 
     @Override
-    public Map<String, String> getLocationWithMostSuccessfulMissionsPerCompany(LocalDate from, LocalDate to) {
+    public Map<String, String> getLocationWithMostSuccessfulMissionsPerCompany(
+            LocalDate from, LocalDate to) {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("Date is null!");
+        }
+
         if (from.isAfter(to)) {
             throw new TimeFrameMismatchException("Invalid time frame!");
         }
@@ -122,10 +140,7 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                 .collect(Collectors.groupingBy(
                         Mission::company,
                         Collectors.groupingBy(
-                                mission -> {
-                                    String[] locationTokens = mission.location().split(",\\s+");
-                                    return locationTokens[locationTokens.length - 1];
-                                },
+                                Mission::location,
                                 Collectors.counting()
                         )
                 ))
@@ -146,6 +161,10 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
 
     @Override
     public List<Rocket> getTopNTallestRockets(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("N must be positive!");
+        }
+
         return rockets.stream()
                 .filter(rocket -> rocket.height().isPresent())
                 .sorted((r1, r2) -> Double.compare(r2.height().get(), r1.height().get()))
@@ -166,15 +185,23 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
     }
 
     @Override
-    public List<String> getWikiPagesForRocketsUsedInMostExpensiveMissions(int n, MissionStatus missionStatus, RocketStatus rocketStatus) {
+    public List<String> getWikiPagesForRocketsUsedInMostExpensiveMissions(
+            int n,
+            MissionStatus missionStatus,
+            RocketStatus rocketStatus
+    ) {
+        if (n <= 0 || missionStatus == null || rocketStatus == null) {
+            throw new IllegalArgumentException("N is not positive or status is null!");
+        }
+
         List<String> mostExpensiveMissionRocketNames = missions.stream()
                 .filter(mission -> mission.missionStatus() == missionStatus)
                 .filter(mission -> mission.rocketStatus() == rocketStatus)
                 .filter(mission -> mission.cost().isPresent())
-                .sorted(Comparator.comparingDouble(mission -> mission.cost().get()))
-                .limit(n)
+                .sorted((m1, m2) -> Double.compare(m2.cost().orElse(0.0), m1.cost().get()))
                 .map(mission -> mission.detail().rocketName())
                 .toList();
+
 
         return mostExpensiveMissionRocketNames.stream()
                 .map(rocketName -> rockets.stream()
@@ -184,11 +211,17 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
                         .orElse(null)
                 )
                 .filter(Objects::nonNull)
+                .limit(n)
                 .toList();
     }
 
     @Override
-    public void saveMostReliableRocket(OutputStream outputStream, LocalDate from, LocalDate to) throws CipherException {
+    public void saveMostReliableRocket(OutputStream outputStream, LocalDate from, LocalDate to)
+            throws CipherException {
+        if (outputStream == null || from == null || to == null) {
+            throw new IllegalArgumentException("Output stream or dates are null!");
+        }
+
         if (from.isAfter(to)) {
             throw new TimeFrameMismatchException("Invalid time frame!");
         }
@@ -230,7 +263,8 @@ public class MJTSpaceScanner implements SpaceScannerAPI {
         long successfulMissions = getSuccessfulMissionsAmountForRocket(rocketName);
         long unsuccessfulMissions = getUnsuccessfulMissionsAmountForRocket(rocketName);
 
-        return (2 * successfulMissions + unsuccessfulMissions) / (2.0 * (successfulMissions + unsuccessfulMissions));
+        return (2 * successfulMissions + unsuccessfulMissions)
+                / (2.0 * (successfulMissions + unsuccessfulMissions));
     }
 
     private List<Mission> loadMissionsFromCSVFile(Reader missionsReader) {
