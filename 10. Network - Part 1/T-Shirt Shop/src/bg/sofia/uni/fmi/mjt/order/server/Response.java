@@ -17,10 +17,12 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
      * @return response with status Status.CREATED and with proper message for additional info
      */
     public static Response create(int id) {
-        // TODO: add implementation
-        return null;
+        return new Response(
+                Status.CREATED,
+                String.format("Successfully created order with id %d.", id),
+                null
+        );
     }
-
 
     /**
      * Creates a response
@@ -29,8 +31,11 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
      * @return response with status Status.OK and Collection of orders
      */
     public static Response ok(Collection<Order> orders) {
-        // TODO: add implementation
-        return null;
+        return new Response(
+                Status.OK,
+                String.format("Successfully retrieved %d orders.", orders.size()),
+                orders
+        );
     }
 
     /**
@@ -40,8 +45,11 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
      * @return response with status Status.DECLINED and errorMessage as additionalInfo
      */
     public static Response decline(String errorMessage) {
-        // TODO: add implementation
-        return null;
+        return new Response(
+                Status.DECLINED,
+                errorMessage,
+                null
+        );
     }
 
     /**
@@ -51,8 +59,11 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
      * @return response with status Status.NOT_FOUND and with proper message for additional info
      */
     public static Response notFound(int id) {
-        // TODO: add implementation
-        return null;
+        return new Response(
+                Status.NOT_FOUND,
+                String.format("Order with id: %d was not found!", id),
+                null
+        );
     }
 
 }
