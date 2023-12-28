@@ -14,7 +14,7 @@ public class RocketParser {
 
         return new Rocket(
                 input[0],
-                input[1],
+                input[1].replaceAll("\"", "").trim(),
                 wiki,
                 height
         );

@@ -15,7 +15,7 @@ public class MissionParser {
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE MMM dd, uuuu", Locale.ENGLISH);
 
     public static Mission parseFromInput(String[] input) {
-        String[] detailData = input[4].split("\\s+\\|\\s+");
+        String[] detailData = removeQuotes(input[4]).split("\\s+\\|\\s+");
         Optional<Double> price = input[6].isBlank() ?
                 Optional.empty() : Optional.of(Double.parseDouble(
                         removeCommasFromPrice(removeQuotes(input[6]))));
