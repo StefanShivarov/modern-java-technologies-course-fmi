@@ -27,11 +27,10 @@ public class MJTOrderRepository implements OrderRepository {
 
     @Override
     public Response getOrderById(int id) {
-        Optional<Order> order = orders.stream()
+        return orders.stream()
                 .filter(o -> o.id() == id)
-                .findFirst();
-
-        return order.map(value -> Response.ok(List.of(value)))
+                .findFirst()
+                .map(value -> Response.ok(List.of(value)))
                 .orElseGet(() -> Response.notFound(id));
     }
 
