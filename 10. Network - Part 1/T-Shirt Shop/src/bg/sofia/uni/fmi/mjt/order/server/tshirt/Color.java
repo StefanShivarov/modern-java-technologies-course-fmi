@@ -17,4 +17,14 @@ public enum Color {
         return name;
     }
 
+    public static Color fromString(String input) {
+        Color color;
+        try {
+            color = Color.valueOf(input.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            color = Color.UNKNOWN;
+        }
+        return color;
+    }
+
 }

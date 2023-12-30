@@ -17,4 +17,14 @@ public enum Destination {
         return name;
     }
 
+    public static Destination fromString(String input) {
+        Destination destination;
+        try {
+            destination = Destination.valueOf(input.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            destination = Destination.UNKNOWN;
+        }
+        return destination;
+    }
+
 }
