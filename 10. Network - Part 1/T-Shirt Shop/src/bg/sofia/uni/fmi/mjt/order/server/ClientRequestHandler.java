@@ -11,7 +11,14 @@ import java.net.Socket;
 public class ClientRequestHandler implements Runnable {
 
     private static final String UNKNOWN_COMMAND_MESSAGE = "Unknown command";
-    private Socket socket;
+    private static final int COMMAND_INDEX = 0;
+    private static final int SECOND_WORD_INDEX = 1;
+    private static final int ID_INDEX = 2;
+    private static final int SIZE_INDEX = 1;
+    private static final int COLOR_INDEX = 2;
+    private static final int DESTINATION_INDEX = 3;
+    private static final int VALUE_INDEX = 1;
+    private final Socket socket;
     private final OrderRepository orderRepository;
 
     public ClientRequestHandler(Socket socket, OrderRepository orderRepository) {
@@ -44,7 +51,7 @@ public class ClientRequestHandler implements Runnable {
 
     private void handleInput(String input, PrintWriter out) {
         String[] inputTokens = input.split("\\s+");
-        switch (inputTokens[0].toLowerCase()) {
+        switch (inputTokens[COMMAND_INDEX].toLowerCase()) {
             case "get" -> handleGetCommand(inputTokens, out);
             case "request" -> handleRequestCommand(inputTokens, out);
             default -> out.println(UNKNOWN_COMMAND_MESSAGE);
@@ -52,26 +59,26 @@ public class ClientRequestHandler implements Runnable {
     }
 
     private void handleGetCommand(String[] inputTokens, PrintWriter out) {
-        switch (inputTokens[1].toLowerCase()) {
+        switch (inputTokens[SECOND_WORD_INDEX].toLowerCase()) {
             case "all" -> out.println(orderRepository.getAllOrders());
             case "all-successful" -> out.println(orderRepository.getAllSuccessfulOrders());
             case "my-order" -> out.println(orderRepository.getOrderById(
-                    Integer.parseInt(inputTokens[2].split("=")[1])
+                    Integer.parseInt(getValueFromToken(inputTokens[ID_INDEX]))
             ));
             default -> out.println(UNKNOWN_COMMAND_MESSAGE);
         }
     }
 
     private void handleRequestCommand(String[] inputTokens, PrintWriter out) {
-        String size = getValueFromToken(inputTokens[1]);
-        String color = getValueFromToken(inputTokens[2]);
-        String destination = getValueFromToken(inputTokens[3]);
+        String size = getValueFromToken(inputTokens[SIZE_INDEX]);
+        String color = getValueFromToken(inputTokens[COLOR_INDEX]);
+        String destination = getValueFromToken(inputTokens[DESTINATION_INDEX]);
 
         out.println(orderRepository.request(size, color, destination));
     }
 
     private String getValueFromToken(String token) {
-        return token.split("=")[1];
+        return token.split("=")[VALUE_INDEX];
     }
 
 }

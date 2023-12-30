@@ -7,11 +7,11 @@ public record Order(int id, TShirt tShirt, Destination destination) {
 
     @Override
     public String toString() {
-        return "{" +
-                "\"id\":" + id +
-                ", \"tShirt\":" + tShirt +
-                ", \"destination\":" + '\"' + destination + '\"' +
-                '}';
+        return "{"
+                + "\"id\":" + id
+                + ", \"tShirt\":" + tShirt
+                + ", \"destination\":" + '\"' + destination + '\"'
+                + '}';
     }
 
 }

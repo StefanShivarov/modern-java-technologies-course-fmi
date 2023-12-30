@@ -68,10 +68,10 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
 
     @Override
     public String toString() {
-        return "{" +
-                "\"status\":" + '\"' + status + '\"' +
-                ", \"additionalInfo\":" + '\"' + additionalInfo + '\"' +
-                (orders == null ? "" : (", \"orders\":" + orders)) +
-                '}';
+        return "{"
+                + "\"status\":" + '\"' + status + '\"'
+                + ", \"additionalInfo\":" + '\"' + additionalInfo + '\"'
+                + (orders == null ? "" : (", \"orders\":" + orders))
+                + '}';
     }
 }
