@@ -19,7 +19,7 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
     public static Response create(int id) {
         return new Response(
                 Status.CREATED,
-                String.format("Successfully created order with id %d.", id),
+                String.format("ORDER_ID=%d", id),
                 null
         );
     }
@@ -61,9 +61,17 @@ public record Response(Status status, String additionalInfo, Collection<Order> o
     public static Response notFound(int id) {
         return new Response(
                 Status.NOT_FOUND,
-                String.format("Order with id: %d was not found!", id),
+                String.format("Order with id = %d does not exist.", id),
                 null
         );
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "\"status\":" + '\"' + status + '\"' +
+                ", \"additionalInfo\":" + '\"' + additionalInfo + '\"' +
+                (orders == null ? "" : (", \"orders\":" + orders)) +
+                '}';
+    }
 }
