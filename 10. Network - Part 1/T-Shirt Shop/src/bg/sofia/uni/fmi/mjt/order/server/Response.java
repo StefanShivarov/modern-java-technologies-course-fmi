@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public record Response(Status status, String additionalInfo, Collection<Order> orders) {
 
-    private enum Status {
+    public enum Status {
         OK, CREATED, DECLINED, NOT_FOUND
     }
 
