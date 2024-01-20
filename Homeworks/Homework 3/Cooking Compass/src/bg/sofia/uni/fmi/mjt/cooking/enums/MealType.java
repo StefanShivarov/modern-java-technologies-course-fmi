@@ -1,12 +1,13 @@
 package bg.sofia.uni.fmi.mjt.cooking.enums;
 
-public enum MealType {
+public enum MealType implements ValuedEnum {
 
-    BREAKFAST("Breakfast"),
-    DINNER("Dinner"),
-    LUNCH("Lunch"),
-    SNACK("Snack"),
-    TEATIME("Teatime");
+    BREAKFAST("breakfast"),
+    DINNER("dinner"),
+    LUNCH("lunch"),
+    LUNCH_DINNER("lunch/dinner"),
+    SNACK("snack"),
+    TEATIME("teatime");
 
     private final String value;
 
@@ -14,6 +15,7 @@ public enum MealType {
         this.value = value;
     }
 
+    @Override
     public String getValue() {
         return value;
     }

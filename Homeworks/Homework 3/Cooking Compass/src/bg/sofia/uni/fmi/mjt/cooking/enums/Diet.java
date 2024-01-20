@@ -1,13 +1,13 @@
 package bg.sofia.uni.fmi.mjt.cooking.enums;
 
-public enum Diet {
+public enum Diet implements ValuedEnum {
 
-    BALANCED("balanced"),
-    HIGH_FIBER("high-fiber"),
-    HIGH_PROTEIN("high-protein"),
-    LOW_CARB("low-carb"),
-    LOW_FAT("low-fat"),
-    LOW_SODIUM("low-sodium");
+    BALANCED("Balanced"),
+    HIGH_FIBER("High-Fiber"),
+    HIGH_PROTEIN("High-Protein"),
+    LOW_CARB("Low-Carb"),
+    LOW_FAT("Low-Fat"),
+    LOW_SODIUM("Low-Sodium");
 
     private final String value;
 
@@ -15,6 +15,7 @@ public enum Diet {
         this.value = value;
     }
 
+    @Override
     public String getValue() {
         return value;
     }

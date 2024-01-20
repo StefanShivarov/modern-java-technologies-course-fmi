@@ -1,23 +1,24 @@
 package bg.sofia.uni.fmi.mjt.cooking.enums;
 
-public enum DishType {
+public enum DishType implements ValuedEnum {
 
-    BISCUITS_AND_COOKIES("Biscuits and cookies"),
-    BREAD("Bread"),
-    CEREALS("Cereals"),
-    CONDIMENTS_AND_SAUCES("Condiments and sauces"),
-    DESSERTS("Desserts"),
-    DRINKS("Drinks"),
-    MAIN_COURSE("Main course"),
-    PANCAKE("Pancake"),
-    PREPS("Preps"),
-    PRESERVE("Preserve"),
-    SALAD("Salad"),
-    SANDWICHES("Sandwiches"),
-    SIDE_DISH("Side dish"),
-    SOUP("Soup"),
-    STARTER("Starter"),
-    SWEETS("Sweets");
+    ALCOHOL_COCKTAIL("alcohol cocktail"),
+    BISCUITS_AND_COOKIES("biscuits and cookies"),
+    BREAD("bread"),
+    CEREALS("cereals"),
+    CONDIMENTS_AND_SAUCES("condiments and sauces"),
+    DESSERTS("desserts"),
+    DRINKS("drinks"),
+    MAIN_COURSE("main course"),
+    PANCAKE("pancake"),
+    PREPS("preps"),
+    PRESERVE("preserve"),
+    SALAD("salad"),
+    SANDWICHES("sandwiches"),
+    SIDE_DISH("side dish"),
+    SOUP("soup"),
+    STARTER("starter"),
+    SWEETS("sweets");
 
     private final String value;
 
@@ -25,6 +26,7 @@ public enum DishType {
         this.value = value;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
