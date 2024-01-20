@@ -18,7 +18,10 @@ public class EnumJsonDeserializer<T extends Enum<T> & ValuedEnum> implements Jso
     }
 
     @Override
-    public T deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+    public T deserialize(
+            JsonElement jsonElement,
+            Type type,
+            JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
         String strValue = jsonElement.getAsString();
 

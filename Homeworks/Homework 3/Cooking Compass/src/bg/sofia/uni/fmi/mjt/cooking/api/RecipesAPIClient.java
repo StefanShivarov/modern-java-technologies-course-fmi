@@ -29,14 +29,22 @@ import java.util.Set;
 public class RecipesAPIClient implements RecipesAPI {
 
     private static final int MAX_PAGES = 2;
-    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private final HttpClient httpClient;
+
+    public RecipesAPIClient() {
+        this.httpClient = HttpClient.newHttpClient();
+    }
+
+    public RecipesAPIClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
 
     @Override
     public Collection<Recipe> getRecipes(String keywords, Set<String> health, Set<String> mealTypes)
             throws RequiredQueryMissingException, InvalidUriException,
             RequestFailedException, BadRequestException, ForbiddenErrorException,
-            InvalidAppCredentialsException
-    {
+            InvalidAppCredentialsException {
+
         RecipesRequestValidator.validate(keywords, health, mealTypes);
 
         URI requestUri = RecipesRequestUri.builder()
@@ -60,8 +68,8 @@ public class RecipesAPIClient implements RecipesAPI {
 
     private void fetchRecipesFromEachPage(URI requestUri, List<Recipe> result)
             throws RequestFailedException, ForbiddenErrorException,
-            BadRequestException, InvalidAppCredentialsException
-    {
+            BadRequestException, InvalidAppCredentialsException {
+
         for (int currentPage = 1; currentPage <= MAX_PAGES; currentPage++) {
             HttpResponse<String> httpResponse = sendRequestTo(requestUri);
 
@@ -92,21 +100,19 @@ public class RecipesAPIClient implements RecipesAPI {
         try {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            throw new RequestFailedException("There was an error while sending the request!", e.getCause());
+            throw new RequestFailedException("There was an error while sending the request!",
+                    e.getCause());
         }
     }
 
     private void validateResponse(HttpResponse<String> httpResponse)
             throws RequestFailedException, BadRequestException,
-            ForbiddenErrorException, InvalidAppCredentialsException
-    {
+            ForbiddenErrorException, InvalidAppCredentialsException {
         if (httpResponse == null) {
             throw new RequestFailedException("Request failed as there is no response!");
         }
 
         if (httpResponse.statusCode() != 200) {
-            System.out.println(httpResponse.statusCode());
-            System.out.println(httpResponse.body());
             ErrorsResponse errorsResponse = GsonConfig.getGson().fromJson(httpResponse.body(),
                     ErrorsResponse.class);
             ErrorData error = errorsResponse.errors().getFirst();

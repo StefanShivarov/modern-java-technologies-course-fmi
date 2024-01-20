@@ -61,7 +61,7 @@ public class RecipesRequestUri {
         return result.toString();
     }
 
-    private void appendRequiredFieldsToQuery(StringBuilder sb){
+    private void appendRequiredFieldsToQuery(StringBuilder sb) {
         Arrays.stream(RequiredField.values())
                 .map(RequiredField::getValue)
                 .forEach(field -> sb.append(FIELDS_QUERY_PREFIX).append(field));

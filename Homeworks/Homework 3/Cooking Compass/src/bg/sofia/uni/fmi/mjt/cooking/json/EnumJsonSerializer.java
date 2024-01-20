@@ -11,7 +11,10 @@ import java.lang.reflect.Type;
 public class EnumJsonSerializer<T extends Enum<T> & ValuedEnum> implements JsonSerializer<T> {
 
     @Override
-    public JsonElement serialize(T enumObj, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(
+            T enumObj,
+            Type type,
+            JsonSerializationContext jsonSerializationContext) {
         return new JsonPrimitive(enumObj.getValue());
     }
 

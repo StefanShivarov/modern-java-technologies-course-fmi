@@ -21,11 +21,16 @@ public class GsonConfig {
 
     private static Gson configureGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(MealType.class, new EnumJsonDeserializer<>(MealType.class))
-                .registerTypeAdapter(Diet.class, new EnumJsonDeserializer<>(Diet.class))
-                .registerTypeAdapter(DishType.class, new EnumJsonDeserializer<>(DishType.class))
-                .registerTypeAdapter(Health.class, new EnumJsonDeserializer<>(Health.class))
-                .registerTypeAdapter(CuisineType.class, new EnumJsonDeserializer<>(CuisineType.class))
+                .registerTypeAdapter(MealType.class,
+                        new EnumJsonDeserializer<>(MealType.class))
+                .registerTypeAdapter(Diet.class,
+                        new EnumJsonDeserializer<>(Diet.class))
+                .registerTypeAdapter(DishType.class,
+                        new EnumJsonDeserializer<>(DishType.class))
+                .registerTypeAdapter(Health.class,
+                        new EnumJsonDeserializer<>(Health.class))
+                .registerTypeAdapter(CuisineType.class,
+                        new EnumJsonDeserializer<>(CuisineType.class))
                 .registerTypeAdapter(MealType.class, new EnumJsonSerializer<>())
                 .registerTypeAdapter(Diet.class, new EnumJsonSerializer<>())
                 .registerTypeAdapter(DishType.class, new EnumJsonSerializer<>())
