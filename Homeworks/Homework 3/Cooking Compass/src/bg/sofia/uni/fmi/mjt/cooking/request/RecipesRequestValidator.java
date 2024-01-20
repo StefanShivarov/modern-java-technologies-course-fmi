@@ -2,11 +2,11 @@ package bg.sofia.uni.fmi.mjt.cooking.request;
 
 import bg.sofia.uni.fmi.mjt.cooking.exception.RequiredQueryMissingException;
 
-import java.util.List;
+import java.util.Set;
 
 public class RecipesRequestValidator {
 
-    public static void validate(String keywords, List<String> mealTypes, List<String> healthLabels)
+    public static void validate(String keywords, Set<String> mealTypes, Set<String> healthLabels)
             throws RequiredQueryMissingException
     {
         if ((keywords == null || keywords.isBlank())
