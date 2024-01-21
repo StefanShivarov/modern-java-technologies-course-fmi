@@ -1,1 +1,1 @@
-# 09. Threads
+# [09. Threads](https://fmi.github.io/java-course/09-threads/lecture/slides.html)

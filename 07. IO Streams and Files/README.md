@@ -1,1 +1,1 @@
-# 07. IO Streams and Files
+# [07. IO Streams and Files](https://fmi.github.io/java-course/07-io-streams-and-files/lecture/slides.html)

@@ -1,0 +1,1 @@
+# [12. HTTP, REST and JSON](https://fmi.github.io/java-course/12-http-rest/lecture/slides.html)

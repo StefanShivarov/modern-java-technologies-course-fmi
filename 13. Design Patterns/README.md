@@ -1,0 +1,1 @@
+# [13. Design Patterns](https://fmi.github.io/java-course/13-design-patterns/lecture/slides.html)

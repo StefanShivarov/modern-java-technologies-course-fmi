@@ -1,1 +1,1 @@
-# 04. Collections and Clean Code
+# [04. Collections and Clean Code](https://fmi.github.io/java-course/04-collections-clean-code/lecture/slides.html)

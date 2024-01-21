@@ -1,1 +1,1 @@
-# 05. Generics
+# [05. Generics](https://fmi.github.io/java-course/05-generics/lecture/slides.html)

@@ -1,1 +1,1 @@
-# 08. Lambdas and Stream API
+# [08. Lambdas and Stream API](https://fmi.github.io/java-course/08-lambdas-and-stream-api/lecture/slides.html)

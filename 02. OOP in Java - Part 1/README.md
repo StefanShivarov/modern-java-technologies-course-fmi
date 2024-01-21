@@ -1,1 +1,1 @@
-# 02. OOP in Java - Part 1
+# [02. OOP in Java - Part 1](https://fmi.github.io/java-course/02-oop-in-java-i/lecture/slides.html)

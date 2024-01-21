@@ -1,0 +1,1 @@
+# [11. Network - Part 2](https://fmi.github.io/java-course/11-network-ii/lecture/slides.html)
