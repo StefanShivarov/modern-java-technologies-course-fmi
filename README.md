@@ -1,6 +1,8 @@
 # Modern Java Technologies (Съвременни Java Технологии) 2023/24
  This repository contains some of my work throughout the MJT course at FMI, 2023/24, winter semester.
 
+## [Course project - Split(NotSo)Wise 💸](https://github.com/StefanShivarov/splitwise-mjt-project)
+
 ## Labs
 | # | Topic | Lab task solution |
 | - | :---- | :---------------- |
@@ -14,7 +16,6 @@
 | 08 | Lambdas and Stream API | [Football Player Analyzer ⚽](https://github.com/StefanShivarov/modern-java-technologies-course-fmi/tree/main/08.%20Lambdas%20and%20Stream%20API/Lab%2008%20-%20Football%20Player%20Analyzer) |
 | 09 | Threads | [Retro Photo Album Maker 📷](https://github.com/StefanShivarov/modern-java-technologies-course-fmi/tree/main/09.%20Threads/Lab%2009%20-%20Retro%20Photo%20Album%20Maker) |
 | 10 | Network - Part 1 | [T-Shirt Shop 👕 🏬](https://github.com/StefanShivarov/modern-java-technologies-course-fmi/tree/main/10.%20Network%20-%20Part%201/T-Shirt%20Shop) |
-
 
 ## Homeworks
 | # | Homework solution |
